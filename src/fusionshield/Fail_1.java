@@ -1,8 +1,5 @@
-//WITH MAIN
 package fusionshield;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -16,22 +13,21 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.util.Scanner;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 
-//Version Info:
-//Version: 5.0 Prototype 2 NVTech Edition
-//Build: NVT500001P2
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
 
-public class FusionShield extends JFrame {
+public class Fail_1{
 
-	private JPanel contentPane;
 	private JFrame frame;
 	private JTextField pubKey;
 	private JTextField priKey;
 	private Scanner input = new Scanner(System.in);
-	public String version = "NVTech Edition 5.0 Prototype 2";
-	private String baseversion = "DRX404001SR";
+	public String version = "NVTech Edition 5.0 Prototype 1";
+	private String baseversion = "DreamHybridShield 4.3-Stable";
 	public String OS;
 	String superpath;
 	public String home;
@@ -46,27 +42,18 @@ public class FusionShield extends JFrame {
 	public boolean exist = false;
 	private JButton loginButton = new JButton("Login");
 	JButton newUserButton = new JButton("Create User");
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FusionShield frame = new FusionShield();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	
+	public static void main(String[]args) {
+		Fail_1 fsg = new Fail_1();
+		fsg.initialize();
 	}
+	
 
 	/**
-	 * Create the frame.
+	 * Initialize the contents of the frame.
 	 */
-	public FusionShield() {
+	public void initialize() {
+
 		varInit();
 
 		frame = new JFrame();
@@ -74,84 +61,48 @@ public class FusionShield extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
 		pubKey = new JTextField();
 		pubKey.setBounds(6, 30, 219, 26);
-		contentPane.add(pubKey);
+		frame.getContentPane().add(pubKey);
 		pubKey.setColumns(10);
 
 		priKey = new JTextField();
 		priKey.setColumns(10);
 		priKey.setBounds(6, 82, 219, 26);
-		contentPane.add(priKey);
+		frame.getContentPane().add(priKey);
 
 		JLabel ID = new JLabel("Public key (Username)");
 		ID.setBounds(6, 6, 207, 16);
-		contentPane.add(ID);
+		frame.getContentPane().add(ID);
 
 		JLabel PW = new JLabel("Private key (Password)");
 		PW.setBounds(6, 66, 207, 16);
-		contentPane.add(PW);
+		frame.getContentPane().add(PW);
 
 		loginButton.setBounds(6, 243, 117, 29);
-		contentPane.add(loginButton);
+		frame.getContentPane().add(loginButton);
 
-		newUserButton.setBounds(125, 243, 117, 29);
-		contentPane.add(newUserButton);
-
+		newUserButton.setBounds(135, 243, 117, 29);
+		frame.getContentPane().add(newUserButton);
+		
 		GUI_ActionListen();
 	}
 
 	public void GUI_ActionListen() {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				boolean empty = true;
-				boolean empty1 = true;
 				cached1 = pubKey.getText();
 				cached2 = priKey.getText();
-				if (cached1.isEmpty()) {
-					JOptionPane.showMessageDialog(frame, "Public key is empty. Unable to continue.");
-				} else {
-					empty = false;
-				}
-				if (cached2.isEmpty()) {
-					JOptionPane.showMessageDialog(frame, "Private key is empty. Unable to continue.");
-				} else {
-					empty1 = false;
-				}
-				if (empty == false && empty1 == false) {
-					String cached3 = cached1 + version + cached2;
-					String cached4 = encryptionEngine(cached3);
-					loginUI(cached4);
-				}
-
+				String cached3 = cached1 + version + cached2;
+				String cached4 = encryptionEngine(cached3);
+				loginUI(cached4);
 			}
 		});
 		newUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				boolean empty = true;
-				boolean empty1 = true;
 				cached1 = pubKey.getText();
 				cached2 = priKey.getText();
-				if (cached1.isEmpty()) {
-					JOptionPane.showMessageDialog(frame, "Public key is empty. Unable to continue.");
-				} else {
-					empty = false;
-				}
-				if (cached2.isEmpty()) {
-					JOptionPane.showMessageDialog(frame, "Private key is empty. Unable to continue.");
-				} else {
-					empty1 = false;
-				}
-				if (empty == false && empty1 == false) {
-					createUserdata();
-				}
+				createUserdata();
 			}
 		});
 	}
@@ -169,7 +120,7 @@ public class FusionShield extends JFrame {
 			path_userdat = home + "/FusionShield/userdat.txt";
 			path_privateData = home + "/FusionShield/privateData";
 			path_des = home + "/FusionShield/des.txt";
-		} else if (OS.contains("linux")) {
+		}else if (OS.contains("linux")) {
 			home = System.getProperty("user.home");
 			superpath = home + "/FusionShield";
 			path_userdat = home + "/FusionShield/userdat.txt";
@@ -200,45 +151,17 @@ public class FusionShield extends JFrame {
 
 	public void checkFSLib() {
 		File fs = new File(superpath);
-		if (OS.startsWith("Windows")) {
-			File textdir = new File(superpath + "//textedit");
-			if (fs.exists()) {
-				if (textdir.exists()) {
-					System.out.println("FusionShield Library already exist.");
-				} else {
-					textdir.mkdir();
-				}
+		File textdir = new File(superpath + "textedit");
+		if (fs.exists()) {
+			if (textdir.exists()) {
+				System.out.println("FusionShield Library already exist.");
 			} else {
-				fs.mkdir();
 				textdir.mkdir();
-				System.out.println("FusionShield Library created.");
-			}
-		} else if (OS.startsWith("Mac")) {
-			File textdir = new File(superpath + "/textedit");
-			if (fs.exists()) {
-				if (textdir.exists()) {
-					System.out.println("FusionShield Library already exist.");
-				} else {
-					textdir.mkdir();
-				}
-			} else {
-				fs.mkdir();
-				textdir.mkdir();
-				System.out.println("FusionShield Library created.");
 			}
 		} else {
-			File textdir = new File(superpath + "/textedit");
-			if (fs.exists()) {
-				if (textdir.exists()) {
-					System.out.println("FusionShield Library already exist.");
-				} else {
-					textdir.mkdir();
-				}
-			} else {
-				fs.mkdir();
-				textdir.mkdir();
-				System.out.println("FusionShield Library created.");
-			}
+			fs.mkdir();
+			textdir.mkdir();
+			System.out.println("FusionShield Library created.");
 		}
 	}
 
@@ -246,10 +169,8 @@ public class FusionShield extends JFrame {
 		File checker = new File(path_userdat);
 		if (checker.exists()) {
 			exist = true;
-			print("Encrypted data exist.");
 		} else {
 			exist = false;
-			print("Encrypted data does not exist.");
 		}
 	}
 
@@ -312,10 +233,10 @@ public class FusionShield extends JFrame {
 			String cached3 = null;
 			BufferedReader br = new BufferedReader(userdat);
 			cached3 = br.readLine();
-			if (cached3.equals(encryptedinput)) {
+			if(cached3.equals(encryptedinput)) {
 				JOptionPane.showMessageDialog(frame, "Login Successful.");
 				pass = true;
-			} else {
+			}else {
 				JOptionPane.showMessageDialog(frame, "Login Failure.");
 				pass = false;
 			}
