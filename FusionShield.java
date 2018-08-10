@@ -1,19 +1,6 @@
-package fusionshield;
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 import java.security.MessageDigest;
 import java.util.Scanner;
 
@@ -21,8 +8,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 //Version Info:
-//Version: 5.0 Prototype 2 NVTech Edition
-//Build: NVT500001P2
+//Version: 5.0 NVTech Edition
+//Build: NVT501029F1
 
 public class FusionShield extends JPanel {
 	private int tried = 0;
@@ -31,8 +18,8 @@ public class FusionShield extends JPanel {
 	private JTextField pubKey;
 	private JTextField priKey;
 	private Scanner input = new Scanner(System.in);
-	public String version = "NVTech Edition 5.0 Prototype 2";
-	public String build = "NVT500001P2";
+	public String version = "NVTech Edition 5.0";
+	public String build = "NVT501029F1";
 	private String baseversion = "DRX404001SR";
 	public String OS;
 	String superpath;
